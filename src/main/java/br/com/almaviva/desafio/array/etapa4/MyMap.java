@@ -3,6 +3,7 @@ package br.com.almaviva.desafio.array.etapa4;
 import java.util.Objects;
 
 public class MyMap<K, V> {
+
     private Object[] chaves;
     private Object[] valores;
     private int size;
@@ -13,14 +14,18 @@ public class MyMap<K, V> {
         size = 0;
     }
 
-    private void expandCapacity() {
-        int newSize = chaves.length * 2;
-        Object[] newChaves = new Object[newSize];
-        Object[] newValores = new Object[newSize];
-        System.arraycopy(chaves, 0, newChaves, 0, size);
-        System.arraycopy(valores, 0, newValores, 0, size);
-        chaves = newChaves;
-        valores = newValores;
+    private void expandirTamanho() {
+        int novoTamanho = chaves.length * 2;
+        Object[] novasChaves = new Object[novoTamanho];
+        Object[] novosValores = new Object[novoTamanho];
+
+        for (int i = 0; i < size; i++) {
+            novasChaves[i] = chaves[i];
+            novosValores[i] = valores[i];
+        }
+
+        chaves = novasChaves;
+        valores = novosValores;
     }
 
     public int size() {
@@ -32,7 +37,12 @@ public class MyMap<K, V> {
     }
 
     public boolean containsKey(K chave) {
-        return indexOfKey(chave) >= 0;
+        for (int i = 0; i < size; i++) {
+            if (Objects.equals(chaves[i], chave)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean containsValue(V valor) {
@@ -45,20 +55,27 @@ public class MyMap<K, V> {
     }
 
     public V get(K chave) {
-        int index = indexOfKey(chave);
-        return index >= 0 ? (V) valores[index] : null;
+        for (int i = 0; i < size; i++) {
+            if (Objects.equals(chaves[i], chave)) {
+                return (V) valores[i];
+            }
+        }
+        return null;
     }
 
     public V put(K chave, V valor) {
-        int index = indexOfKey(chave);
-        if (index >= 0) {
-            V oldValue = (V) valores[index];
-            valores[index] = valor;
-            return oldValue;
+        for (int i = 0; i < size; i++) {
+            if (Objects.equals(chaves[i], chave)) {
+                V antigoValor = (V) valores[i];
+                valores[i] = valor;
+                return antigoValor;
+            }
         }
+
         if (size == chaves.length) {
-            expandCapacity();
+            expandirTamanho();
         }
+
         chaves[size] = chave;
         valores[size] = valor;
         size++;
@@ -66,28 +83,38 @@ public class MyMap<K, V> {
     }
 
     public V remove(K chave) {
-        int index = indexOfKey(chave);
-        if (index >= 0) {
-            V oldValue = (V) valores[index];
-            for (int i = index; i < size - 1; i++) {
-                chaves[i] = chaves[i + 1];
-                valores[i] = valores[i + 1];
+        for (int i = 0; i < size; i++) {
+            if (Objects.equals(chaves[i], chave)) {
+                V valorRemovido = (V) valores[i];
+
+                for (int j = i; j < size - 1; j++) {
+                    chaves[j] = chaves[j + 1];
+                    valores[j] = valores[j + 1];
+                }
+
+                chaves[size - 1] = null;
+                valores[size - 1] = null;
+                size--;
+                return valorRemovido;
             }
-            chaves[size - 1] = null;
-            valores[size - 1] = null;
-            size--;
-            return oldValue;
         }
         return null;
     }
 
-    private int indexOfKey(K chave) {
+    public Object[] keys() {
+        Object[] resultado = new Object[size];
         for (int i = 0; i < size; i++) {
-            if (Objects.equals(chaves[i], chave)) {
-                return i;
-            }
+            resultado[i] = chaves[i];
         }
-        return -1;
+        return resultado;
+    }
+
+    public Object[] values() {
+        Object[] resultado = new Object[size];
+        for (int i = 0; i < size; i++) {
+            resultado[i] = valores[i];
+        }
+        return resultado;
     }
 
     @Override
