@@ -1,12 +1,8 @@
 package br.com.almaviva.desafio.array.etapa4;
 
 import java.util.Objects;
-import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
-import java.util.function.Function;
 
-public class MyMap<Chave, Valor> {
-
+public class MyMap<K, V> {
     private Object[] chaves;
     private Object[] valores;
     private int size;
@@ -17,7 +13,7 @@ public class MyMap<Chave, Valor> {
         size = 0;
     }
 
-    private void ampliarArray() {
+    private void expandCapacity() {
         int newSize = chaves.length * 2;
         Object[] newChaves = new Object[newSize];
         Object[] newValores = new Object[newSize];
@@ -35,11 +31,11 @@ public class MyMap<Chave, Valor> {
         return size == 0;
     }
 
-    public boolean containsKey(Chave chave) {
+    public boolean containsKey(K chave) {
         return indexOfKey(chave) >= 0;
     }
 
-    public boolean containsValue(Valor valor) {
+    public boolean containsValue(V valor) {
         for (int i = 0; i < size; i++) {
             if (Objects.equals(valores[i], valor)) {
                 return true;
@@ -48,20 +44,20 @@ public class MyMap<Chave, Valor> {
         return false;
     }
 
-    public Valor get(Chave chave) {
+    public V get(K chave) {
         int index = indexOfKey(chave);
-        return index >= 0 ? (Valor) valores[index] : null;
+        return index >= 0 ? (V) valores[index] : null;
     }
 
-    public Valor put(Chave chave, Valor valor) {
+    public V put(K chave, V valor) {
         int index = indexOfKey(chave);
         if (index >= 0) {
-            Valor oldValue = (Valor) valores[index];
+            V oldValue = (V) valores[index];
             valores[index] = valor;
             return oldValue;
         }
         if (size == chaves.length) {
-            ampliarArray();
+            expandCapacity();
         }
         chaves[size] = chave;
         valores[size] = valor;
@@ -69,25 +65,10 @@ public class MyMap<Chave, Valor> {
         return null;
     }
 
-    public void putAll(MyMap<? extends Chave, ? extends Valor> other) {
-        for (int i = 0; i < other.size(); i++) {
-            this.put((Chave) other.chaves[i], (Valor) other.valores[i]);
-        }
-    }
-
-    public Valor putIfAbsent(Chave chave, Valor valor) {
+    public V remove(K chave) {
         int index = indexOfKey(chave);
         if (index >= 0) {
-            return (Valor) valores[index];
-        }
-        put(chave, valor);
-        return null;
-    }
-
-    public Valor remove(Chave chave) {
-        int index = indexOfKey(chave);
-        if (index >= 0) {
-            Valor oldValue = (Valor) valores[index];
+            V oldValue = (V) valores[index];
             for (int i = index; i < size - 1; i++) {
                 chaves[i] = chaves[i + 1];
                 valores[i] = valores[i + 1];
@@ -100,118 +81,7 @@ public class MyMap<Chave, Valor> {
         return null;
     }
 
-    public boolean remove(Chave chave, Valor valor) {
-        int index = indexOfKey(chave);
-        if (index >= 0 && Objects.equals(valores[index], valor)) {
-            remove(chave);
-            return true;
-        }
-        return false;
-    }
-
-    public Valor replace(Chave chave, Valor valor) {
-        int index = indexOfKey(chave);
-        if (index >= 0) {
-            Valor oldValue = (Valor) valores[index];
-            valores[index] = valor;
-            return oldValue;
-        }
-        return null;
-    }
-
-    public boolean replace(Chave chave, Valor oldValue, Valor newValue) {
-        int index = indexOfKey(chave);
-        if (index >= 0 && Objects.equals(valores[index], oldValue)) {
-            valores[index] = newValue;
-            return true;
-        }
-        return false;
-    }
-
-    public void replaceAll(BiFunction<? super Chave, ? super Valor, ? extends Valor> function) {
-        for (int i = 0; i < size; i++) {
-            valores[i] = function.apply((Chave) chaves[i], (Valor) valores[i]);
-        }
-    }
-
-    public void forEach(BiConsumer<? super Chave, ? super Valor> action) {
-        for (int i = 0; i < size; i++) {
-            action.accept((Chave) chaves[i], (Valor) valores[i]);
-        }
-    }
-
-    public Valor compute(Chave chave, BiFunction<? super Chave, ? super Valor, ? extends Valor> remappingFunction) {
-        int index = indexOfKey(chave);
-        Valor newValue = remappingFunction.apply(chave, index >= 0 ? (Valor) valores[index] : null);
-        if (newValue == null) {
-            if (index >= 0) {
-                remove(chave);
-            }
-        } else {
-            if (index >= 0) {
-                valores[index] = newValue;
-            } else {
-                put(chave, newValue);
-            }
-        }
-        return newValue;
-    }
-
-    public Valor computeIfAbsent(Chave chave, Function<? super Chave, ? extends Valor> mappingFunction) {
-        int index = indexOfKey(chave);
-        if (index < 0) {
-            Valor newValue = mappingFunction.apply(chave);
-            if (newValue != null) {
-                put(chave, newValue);
-            }
-            return newValue;
-        }
-        return (Valor) valores[index];
-    }
-
-    public Valor computeIfPresent(Chave chave, BiFunction<? super Chave, ? super Valor, ? extends Valor> remappingFunction) {
-        int index = indexOfKey(chave);
-        if (index >= 0) {
-            Valor newValue = remappingFunction.apply(chave, (Valor) valores[index]);
-            if (newValue == null) {
-                remove(chave);
-            } else {
-                valores[index] = newValue;
-            }
-            return newValue;
-        }
-        return null;
-    }
-
-    public Valor merge(Chave chave, Valor valor, BiFunction<? super Valor, ? super Valor, ? extends Valor> remappingFunction) {
-        int index = indexOfKey(chave);
-        if (index >= 0) {
-            Valor newValue = remappingFunction.apply((Valor) valores[index], valor);
-            if (newValue == null) {
-                remove(chave);
-            } else {
-                valores[index] = newValue;
-            }
-            return newValue;
-        } else {
-            put(chave, valor);
-            return valor;
-        }
-    }
-
-    public Object[] keys() {
-        Object[] result = new Object[size];
-        System.arraycopy(chaves, 0, result, 0, size);
-        return result;
-    }
-
-    public Object[] values() {
-        Object[] result = new Object[size];
-        System.arraycopy(valores, 0, result, 0, size);
-        return result;
-    }
-
-    private int indexOfKey(Chave chave) {
+    private int indexOfKey(K chave) {
         for (int i = 0; i < size; i++) {
             if (Objects.equals(chaves[i], chave)) {
                 return i;
