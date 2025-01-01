@@ -3,7 +3,7 @@ package br.com.almaviva.desafio.array.etapa4;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class MyMapTeste {
+public class MyMapTeste{
 
     @Test
     public void deveriaAdicionarERecuperarValoresCorretamente() {
