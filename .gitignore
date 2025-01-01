@@ -1,0 +1,8 @@
+# Diretórios de build
+/target/
+/bin/
+
+# Arquivos específicos do Eclipse
+.classpath
+.project
+.settings/
