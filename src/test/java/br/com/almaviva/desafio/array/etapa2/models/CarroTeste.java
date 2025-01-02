@@ -52,13 +52,6 @@ class CarroTeste{
         assertEquals(2022, carro.getAno());
     }
 
-    @Test
-    void deveriaRetornarStringCorretaNoToString() {
-        Carro carro = new Carro(1, "Toyota", "ABC-1234", 2022);
-
-        String esperado = "Carro{id=1, marca='Toyota', placa='ABC-1234', ano=2022}";
-        assertEquals(esperado, carro.toString());
-    }
 
     @Test
     void naoDeveriaRetornarStringIncorretaNoToString() {

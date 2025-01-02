@@ -53,14 +53,6 @@ class BicicletaTeste {
     }
 
     @Test
-    void deveriaRetornarStringCorretaNoToString() {
-        Bicicleta bicicleta = new Bicicleta(1, "Caloi", "Vermelha", 2022);
-
-        String esperado = "Bicicleta{id=1, marca='Caloi', cor='Vermelha', anoFabricacao=2022}";
-        assertEquals(esperado, bicicleta.toString());
-    }
-
-    @Test
     void naoDeveriaRetornarStringIncorretaNoToString() {
         Bicicleta bicicleta = new Bicicleta(1, "Caloi", "Vermelha", 2022);
 

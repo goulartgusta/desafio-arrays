@@ -89,13 +89,11 @@ class MySetTeste {
 
     @Test
     void deveriaAumentarTamanhoQuandoCapacidadeAtingida() {
-        // Adiciona elementos até atingir a capacidade inicial (10)
         for (int i = 4; i <= 10; i++) {
             conjunto.add("Elemento" + i);
         }
         assertEquals(10, conjunto.size());
 
-        // Adiciona mais um elemento, forçando o aumento do tamanho
         conjunto.add("Elemento11");
         assertEquals(11, conjunto.size());
         assertTrue(conjunto.contains("Elemento11"));

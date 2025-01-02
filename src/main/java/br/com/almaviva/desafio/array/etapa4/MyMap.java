@@ -2,7 +2,6 @@ package br.com.almaviva.desafio.array.etapa4;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 
 public class MyMap<K, V> {
@@ -97,16 +96,6 @@ public class MyMap<K, V> {
 		return null;
 	}
 
-	public V replace(K key, V value) {
-		for (int i = 0; i < size; i++) {
-			if ((key == null && entries[i].key == null) || (key != null && key.equals(entries[i].key))) {
-				V oldValue = entries[i].value;
-				entries[i].value = value;
-				return oldValue;
-			}
-		}
-		return null;
-	}
 
 	public boolean replace(K key, V oldValue, V newValue) {
 		for (int i = 0; i < size; i++) {
@@ -139,9 +128,6 @@ public class MyMap<K, V> {
 		}
 		return keys;
 	}
-
-	public List<V> values() {
-		List<V> v 	
 
 	public List<Entry<K, V>> entrySet() {
 		List<Entry<K, V>> entryList = new ArrayList<>();

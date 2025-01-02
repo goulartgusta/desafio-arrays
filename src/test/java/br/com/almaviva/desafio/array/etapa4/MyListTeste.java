@@ -19,8 +19,6 @@ class MyListTeste {
         lista.add("Elemento3");
     }
 
-    // =================== Métodos Fáceis ===================
-
     @Test
     void deveriaRetornarTamanhoCorreto() {
         assertEquals(3, lista.size());
@@ -74,8 +72,6 @@ class MyListTeste {
         }
         assertTrue(lista.size() > 10);
     }
-
-    // =================== Métodos Médios ===================
 
     @Test
     void deveriaObterElementoPorIndice() {
@@ -142,8 +138,6 @@ class MyListTeste {
     void deveriaRetornarMenosUmParaUltimoIndiceDeElementoInexistente() {
         assertEquals(-1, lista.lastIndexOf("ElementoInexistente"));
     }
-
-    // =================== Métodos Complexos ===================
 
     @Test
     void deveriaSubstituirTodosElementos() {

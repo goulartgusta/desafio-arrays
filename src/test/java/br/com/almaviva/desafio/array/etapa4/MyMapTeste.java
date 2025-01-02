@@ -90,17 +90,6 @@ class MyMapTeste {
     }
 
     @Test
-    void deveriaSubstituirValorExistenteComReplace() {
-        mapa.replace("key1", "updatedValue");
-        assertEquals("updatedValue", mapa.get("key1"));
-    }
-
-    @Test
-    void naoDeveriaSubstituirChaveInexistenteComReplace() {
-        assertNull(mapa.replace("nonExistentKey", "value"));
-    }
-
-    @Test
     void deveriaSubstituirValorCondicionalmenteComReplace() {
         assertTrue(mapa.replace("key1", "value1", "newValue1"));
         assertEquals("newValue1", mapa.get("key1"));
@@ -118,15 +107,6 @@ class MyMapTeste {
         assertTrue(keys.contains("key1"));
         assertTrue(keys.contains("key2"));
         assertTrue(keys.contains("key3"));
-    }
-
-    @Test
-    void deveriaRetornarTodosOsValores() {
-        List<String> values = mapa.values();
-        assertEquals(3, values.size());
-        assertTrue(values.contains("value1"));
-        assertTrue(values.contains("value2"));
-        assertTrue(values.contains("value3"));
     }
 
     @Test
