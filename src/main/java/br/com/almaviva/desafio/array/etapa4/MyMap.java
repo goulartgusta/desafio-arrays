@@ -1,130 +1,160 @@
 package br.com.almaviva.desafio.array.etapa4;
 
-import java.util.Objects;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
 
 public class MyMap<K, V> {
+	private Entry<K, V>[] entries;
+	private int size;
 
-    private Object[] chaves;
-    private Object[] valores;
-    private int size;
+	@SuppressWarnings("unchecked")
+	public MyMap() {
+		entries = new Entry[10];
+		size = 0;
+	}
 
-    public MyMap() {
-        chaves = new Object[10];
-        valores = new Object[10];
-        size = 0;
-    }
+	static class Entry<K, V> {
+		K key;
+		V value;
 
-    private void expandirTamanho() {
-        int novoTamanho = chaves.length * 2;
-        Object[] novasChaves = new Object[novoTamanho];
-        Object[] novosValores = new Object[novoTamanho];
+		Entry(K key, V value) {
+			this.key = key;
+			this.value = value;
+		}
+	}
 
-        for (int i = 0; i < size; i++) {
-            novasChaves[i] = chaves[i];
-            novosValores[i] = valores[i];
-        }
+	private void aumentarTamanho() {
+		Entry<K, V>[] newEntries = new Entry[entries.length * 2];
+		for (int i = 0; i < size; i++) {
+			newEntries[i] = entries[i];
+		}
+		entries = newEntries;
+	}
 
-        chaves = novasChaves;
-        valores = novosValores;
-    }
+	public int size() {
+		return size;
+	}
 
-    public int size() {
-        return size;
-    }
+	public boolean isEmpty() {
+		return size == 0;
+	}
 
-    public boolean isEmpty() {
-        return size == 0;
-    }
+	public boolean containsKey(K key) {
+		for (int i = 0; i < size; i++) {
+			if ((key == null && entries[i].key == null) || (key != null && key.equals(entries[i].key))) {
+				return true;
+			}
+		}
+		return false;
+	}
 
-    public boolean containsKey(K chave) {
-        for (int i = 0; i < size; i++) {
-            if (Objects.equals(chaves[i], chave)) {
-                return true;
-            }
-        }
-        return false;
-    }
+	public boolean containsValue(V value) {
+		for (int i = 0; i < size; i++) {
+			if ((value == null && entries[i].value == null) || (value != null && value.equals(entries[i].value))) {
+				return true;
+			}
+		}
+		return false;
+	}
 
-    public boolean containsValue(V valor) {
-        for (int i = 0; i < size; i++) {
-            if (Objects.equals(valores[i], valor)) {
-                return true;
-            }
-        }
-        return false;
-    }
+	public V get(K key) {
+		for (int i = 0; i < size; i++) {
+			if ((key == null && entries[i].key == null) || (key != null && key.equals(entries[i].key))) {
+				return entries[i].value;
+			}
+		}
+		return null;
+	}
 
-    public V get(K chave) {
-        for (int i = 0; i < size; i++) {
-            if (Objects.equals(chaves[i], chave)) {
-                return (V) valores[i];
-            }
-        }
-        return null;
-    }
+	public V put(K key, V value) {
+		for (int i = 0; i < size; i++) {
+			if ((key == null && entries[i].key == null) || (key != null && key.equals(entries[i].key))) {
+				V oldValue = entries[i].value;
+				entries[i].value = value;
+				return oldValue;
+			}
+		}
+		if (size == entries.length) {
+			aumentarTamanho();
+		}
+		entries[size++] = new Entry<>(key, value);
+		return null;
+	}
 
-    public V put(K chave, V valor) {
-        for (int i = 0; i < size; i++) {
-            if (Objects.equals(chaves[i], chave)) {
-                V antigoValor = (V) valores[i];
-                valores[i] = valor;
-                return antigoValor;
-            }
-        }
+	public V remove(K key) {
+		for (int i = 0; i < size; i++) {
+			if ((key == null && entries[i].key == null) || (key != null && key.equals(entries[i].key))) {
+				V value = entries[i].value;
+				for (int j = i; j < size - 1; j++) {
+					entries[j] = entries[j + 1];
+				}
+				entries[--size] = null;
+				return value;
+			}
+		}
+		return null;
+	}
 
-        if (size == chaves.length) {
-            expandirTamanho();
-        }
+	public V replace(K key, V value) {
+		for (int i = 0; i < size; i++) {
+			if ((key == null && entries[i].key == null) || (key != null && key.equals(entries[i].key))) {
+				V oldValue = entries[i].value;
+				entries[i].value = value;
+				return oldValue;
+			}
+		}
+		return null;
+	}
 
-        chaves[size] = chave;
-        valores[size] = valor;
-        size++;
-        return null;
-    }
+	public boolean replace(K key, V oldValue, V newValue) {
+		for (int i = 0; i < size; i++) {
+			if ((key == null && entries[i].key == null) || (key != null && key.equals(entries[i].key))) {
+				if ((oldValue == null && entries[i].value == null)
+						|| (oldValue != null && oldValue.equals(entries[i].value))) {
+					entries[i].value = newValue;
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 
-    public V remove(K chave) {
-        for (int i = 0; i < size; i++) {
-            if (Objects.equals(chaves[i], chave)) {
-                V valorRemovido = (V) valores[i];
+	public void putAll(MyMap<K, V> m) {
+		for (int i = 0; i < m.size; i++) {
+			put(m.entries[i].key, m.entries[i].value);
+		}
+	}
 
-                for (int j = i; j < size - 1; j++) {
-                    chaves[j] = chaves[j + 1];
-                    valores[j] = valores[j + 1];
-                }
+	public void clear() {
+		entries = new Entry[10];
+		size = 0;
+	}
 
-                chaves[size - 1] = null;
-                valores[size - 1] = null;
-                size--;
-                return valorRemovido;
-            }
-        }
-        return null;
-    }
+	public List<K> keySet() {
+		List<K> keys = new ArrayList<>();
+		for (int i = 0; i < size; i++) {
+			keys.add(entries[i].key);
+		}
+		return keys;
+	}
 
-    public Object[] keys() {
-        Object[] resultado = new Object[size];
-        for (int i = 0; i < size; i++) {
-            resultado[i] = chaves[i];
-        }
-        return resultado;
-    }
+	public List<V> values() {
+		List<V> v 	
 
-    public Object[] values() {
-        Object[] resultado = new Object[size];
-        for (int i = 0; i < size; i++) {
-            resultado[i] = valores[i];
-        }
-        return resultado;
-    }
+	public List<Entry<K, V>> entrySet() {
+		List<Entry<K, V>> entryList = new ArrayList<>();
+		for (int i = 0; i < size; i++) {
+			entryList.add(entries[i]);
+		}
+		return entryList;
+	}
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder("{");
-        for (int i = 0; i < size; i++) {
-            sb.append(chaves[i]).append("=").append(valores[i]);
-            if (i < size - 1) sb.append(", ");
-        }
-        sb.append("}");
-        return sb.toString();
-    }
+	public void replaceAll(BiFunction<? super K, ? super V, ? extends V> function) {
+		for (int i = 0; i < size; i++) {
+			entries[i].value = function.apply(entries[i].key, entries[i].value);
+		}
+	}
+
 }
