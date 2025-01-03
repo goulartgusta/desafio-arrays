@@ -1,80 +1,69 @@
 package br.com.almaviva.desafio.array.etapa4;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
 public class MySet<E> {
-    private Object[] elementos;
-    private int tamanho;
+
+    private static final int INITIAL_CAPACITY = 10;
+    private Object[] elements;
+    private int size;
 
     public MySet() {
-        this.elementos = new Object[10];
-        this.tamanho = 0;
+        elements = new Object[INITIAL_CAPACITY];
+        size = 0;
     }
 
-    private void aumentarTamanho() {
-        Object[] novoArray = new Object[elementos.length * 2];
-        for (int i = 0; i < tamanho; i++) {
-            novoArray[i] = elementos[i];
+    private void ensureCapacity() {
+        if (size >= elements.length) {
+            elements = Arrays.copyOf(elements, elements.length * 2);
         }
-        elementos = novoArray;
+    }
+
+    public boolean add(E element) {
+        if (!contains(element)) {
+            ensureCapacity();
+            elements[size++] = element;
+            return true;
+        }
+        return false;
+    }
+
+    @SuppressWarnings("unchecked")
+    public boolean remove(Object o) {
+        int index = indexOf(o);
+        if (index >= 0) {
+            elements[index] = elements[size - 1];
+            elements[size - 1] = null;
+            size--;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean contains(Object o) {
+        return indexOf(o) >= 0;
     }
 
     public int size() {
-        return tamanho;
+        return size;
     }
 
     public boolean isEmpty() {
-        return tamanho == 0;
-    }
-
-    public boolean contains(E elemento) {
-        for (int i = 0; i < tamanho; i++) {
-            if ((elemento == null && elementos[i] == null) || 
-                (elemento != null && elemento.equals(elementos[i]))) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean add(E elemento) {
-        if (contains(elemento)) {
-            return false;
-        }
-        if (tamanho == elementos.length) {
-            aumentarTamanho();
-        }
-        elementos[tamanho++] = elemento;
-        return true;
-    }
-
-    public boolean remove(E elemento) {
-        for (int i = 0; i < tamanho; i++) {
-            if ((elemento == null && elementos[i] == null) || 
-                (elemento != null && elemento.equals(elementos[i]))) {
-                for (int j = i; j < tamanho - 1; j++) {
-                    elementos[j] = elementos[j + 1];
-                }
-                elementos[--tamanho] = null;
-                return true;
-            }
-        }
-        return false;
+        return size == 0;
     }
 
     public void clear() {
-        for (int i = 0; i < tamanho; i++) {
-            elementos[i] = null;
-        }
-        tamanho = 0;
+        Arrays.fill(elements, 0, size, null);
+        size = 0;
     }
 
-    public List<E> toList() {
-        List<E> lista = new ArrayList<>(tamanho);
-        for (int i = 0; i < tamanho; i++) {
-            lista.add((E) elementos[i]);
+    private int indexOf(Object o) {
+        for (int i = 0; i < size; i++) {
+            if ((elements[i] == null && o == null)
+             || (elements[i] != null && elements[i].equals(o))) {
+                return i;
+            }
         }
-        return lista;
+        return -1;
     }
 }

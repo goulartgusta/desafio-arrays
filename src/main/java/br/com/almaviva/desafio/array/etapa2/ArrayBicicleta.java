@@ -3,54 +3,61 @@ package br.com.almaviva.desafio.array.etapa2;
 import br.com.almaviva.desafio.array.etapa2.models.Bicicleta;
 import br.com.almaviva.desafio.array.etapa2.models.Model;
 import br.com.almaviva.desafio.array.etapa3.Array;
+import br.com.almaviva.desafio.array.exceptions.ModelCastException;
 
 public class ArrayBicicleta extends Array {
 
-    public ArrayBicicleta(int tamanho) {
+    public ArrayBicicleta(Integer tamanho) {
         super(tamanho);
     }
 
     @Override
-    public Bicicleta[] getItems() {
-        return (Bicicleta[]) super.getItems();
-    }
-
-    @Override
     public void inserir(Model model) {
-        if (model instanceof Bicicleta) {
-            super.inserir(model);
+        try {
+            Bicicleta bike = (Bicicleta) model;
+            super.inserir(bike);
+        } catch (ClassCastException e) {
+            throw new ModelCastException("Falha ao inserir: não é Bicicleta.", e);
         }
     }
 
     @Override
     public void remover(Model model) {
-        if (model instanceof Bicicleta) {
-            super.remover(model);
+        try {
+            Bicicleta bike = (Bicicleta) model;
+            super.remover(bike);
+        } catch (ClassCastException e) {
+            throw new ModelCastException("Falha ao remover: não é Bicicleta.", e);
         }
     }
 
     @Override
-    public Bicicleta buscar(Model model) {
-        if (model instanceof Bicicleta) {
-            return (Bicicleta) super.buscar(model);
+    public Model pesquisar(Model model) {
+        try {
+            Bicicleta bike = (Bicicleta) model;
+            return super.pesquisar(bike);
+        } catch (ClassCastException e) {
+            throw new ModelCastException("Falha ao pesquisar: não é Bicicleta.", e);
         }
-        return null;
     }
 
     @Override
-    public void ordenarPorIdAscendente(int id) {
-        super.ordenarPorIdAscendente(id);
+    public void ordenarPorIdCrescente(int id) {
+        super.ordenarPorIdCrescente(id);
     }
 
     @Override
-    public void ordenarPorIdDescendente(int id) {
-        super.ordenarPorIdDescendente(id);
+    public void ordenarPorIdDecrescente(int id) {
+        super.ordenarPorIdDecrescente(id);
     }
 
     @Override
     public void atualizar(Model model) {
-        if (model instanceof Bicicleta) {
-            super.atualizar(model);
+        try {
+            Bicicleta bike = (Bicicleta) model;
+            super.atualizar(bike);
+        } catch (ClassCastException e) {
+            throw new ModelCastException("Falha ao atualizar: não é Bicicleta.", e);
         }
     }
 }

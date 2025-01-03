@@ -1,62 +1,49 @@
 package br.com.almaviva.desafio.array.etapa2.models;
 
 import org.junit.jupiter.api.Test;
-
-import br.com.almaviva.desafio.array.etapa2.models.Bicicleta;
-
 import static org.junit.jupiter.api.Assertions.*;
 
-class BicicletaTeste {
+class BicicletaTest {
 
     @Test
-    void deveriaRetornarValoresCorretosNosGetters() {
-        Bicicleta bicicleta = new Bicicleta(1, "Caloi", "Vermelha", 2022);
-
-        assertEquals("Caloi", bicicleta.getMarca());
-        assertEquals("Vermelha", bicicleta.getCor());
-        assertEquals(2022, bicicleta.getAnoFabricacao());
+    void deveriaConfigurarEObterId() {
+        Bicicleta bike = new Bicicleta();
+        bike.setId(1);
+        assertEquals(1, bike.getId());
     }
 
     @Test
-    void deveriaAlterarValoresCorretamenteNosSetters() {
-        Bicicleta bicicleta = new Bicicleta(1, "Caloi", "Vermelha", 2022);
-
-        bicicleta.setMarca("Monark");
-        bicicleta.setCor("Azul");
-        bicicleta.setAnoFabricacao(2021);
-
-        assertEquals("Monark", bicicleta.getMarca());
-        assertEquals("Azul", bicicleta.getCor());
-        assertEquals(2021, bicicleta.getAnoFabricacao());
+    void deveriaConfigurarEObterNome() {
+        Bicicleta bike = new Bicicleta();
+        bike.setNome("Speed");
+        assertEquals("Speed", bike.getNome());
     }
 
     @Test
-    void naoDeveriaRetornarValoresIncorretosNosGetters() {
-        Bicicleta bicicleta = new Bicicleta(1, "Caloi", "Vermelha", 2022);
-
-        assertNotEquals("Monark", bicicleta.getMarca());
-        assertNotEquals("Azul", bicicleta.getCor());
-        assertNotEquals(2021, bicicleta.getAnoFabricacao());
+    void deveriaConfigurarEObterAno() {
+        Bicicleta bike = new Bicicleta();
+        bike.setAno(2022);
+        assertEquals(2022, bike.getAno());
     }
 
     @Test
-    void naoDeveriaAlterarParaValoresIncorretosNosSetters() {
-        Bicicleta bicicleta = new Bicicleta(1, "Caloi", "Vermelha", 2022);
-
-        bicicleta.setMarca("Caloi");
-        bicicleta.setCor("Vermelha");
-        bicicleta.setAnoFabricacao(2022);
-
-        assertEquals("Caloi", bicicleta.getMarca());
-        assertEquals("Vermelha", bicicleta.getCor());
-        assertEquals(2022, bicicleta.getAnoFabricacao());
+    void deveriaConfigurarEObterCor() {
+        Bicicleta bike = new Bicicleta();
+        bike.setCor("Azul");
+        assertEquals("Azul", bike.getCor());
     }
 
     @Test
-    void naoDeveriaRetornarStringIncorretaNoToString() {
-        Bicicleta bicicleta = new Bicicleta(1, "Caloi", "Vermelha", 2022);
+    void deveriaConfigurarEObterMarca() {
+        Bicicleta bike = new Bicicleta();
+        bike.setMarca("Caloi");
+        assertEquals("Caloi", bike.getMarca());
+    }
 
-        String incorreto = "Bicicleta{id=2, marca='Monark', cor='Azul', anoFabricacao=2021}";
-        assertNotEquals(incorreto, bicicleta.toString());
+    @Test
+    void deveriaConfigurarEObterTamanhoAro() {
+        Bicicleta bike = new Bicicleta();
+        bike.setTamanhoQuadro(29);
+        assertEquals(29, bike.getTamanhoQuadro());
     }
 }

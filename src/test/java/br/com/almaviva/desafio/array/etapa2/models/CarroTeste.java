@@ -1,63 +1,49 @@
 package br.com.almaviva.desafio.array.etapa2.models;
 
 import org.junit.jupiter.api.Test;
-
-import br.com.almaviva.desafio.array.etapa2.models.Carro;
-
 import static org.junit.jupiter.api.Assertions.*;
 
-class CarroTeste{
+class CarroTeste {
 
     @Test
-    void deveriaRetornarValoresCorretosNosGetters() {
-        Carro carro = new Carro(1, "Toyota", "ABC-1234", 2022);
-
-        assertEquals("Toyota", carro.getMarca());
-        assertEquals("ABC-1234", carro.getPlaca());
-        assertEquals(2022, carro.getAno());
+    void deveriaConfigurarEObterId() {
+        Carro carro = new Carro();
+        carro.setId(100);
+        assertEquals(100, carro.getId());
     }
 
     @Test
-    void deveriaAlterarValoresCorretamenteNosSetters() {
-        Carro carro = new Carro(1, "Toyota", "ABC-1234", 2022);
-
-        carro.setMarca("Honda");
-        carro.setPlaca("XYZ-9876");
-        carro.setAno(2020);
-
-        assertEquals("Honda", carro.getMarca());
-        assertEquals("XYZ-9876", carro.getPlaca());
-        assertEquals(2020, carro.getAno());
+    void deveriaConfigurarEObterNome() {
+        Carro carro = new Carro();
+        carro.setNome("MeuCarro");
+        assertEquals("MeuCarro", carro.getNome());
     }
 
     @Test
-    void naoDeveriaRetornarValoresIncorretosNosGetters() {
-        Carro carro = new Carro(1, "Toyota", "ABC-1234", 2022);
-
-        assertNotEquals("Honda", carro.getMarca());
-        assertNotEquals("XYZ-9876", carro.getPlaca());
-        assertNotEquals(2020, carro.getAno());
+    void deveriaConfigurarEObterAno() {
+        Carro carro = new Carro();
+        carro.setAno(2023);
+        assertEquals(2023, carro.getAno());
     }
 
     @Test
-    void naoDeveriaAlterarParaValoresIncorretosNosSetters() {
-        Carro carro = new Carro(1, "Toyota", "ABC-1234", 2022);
+    void deveriaConfigurarEObterMarca() {
+        Carro carro = new Carro();
+        carro.setMarca("Volkswagen");
+        assertEquals("Volkswagen", carro.getMarca());
+    }
 
-        carro.setMarca("Toyota");
+    @Test
+    void deveriaConfigurarEObterPlaca() {
+        Carro carro = new Carro();
         carro.setPlaca("ABC-1234");
-        carro.setAno(2022);
-
-        assertEquals("Toyota", carro.getMarca());
         assertEquals("ABC-1234", carro.getPlaca());
-        assertEquals(2022, carro.getAno());
     }
 
-
     @Test
-    void naoDeveriaRetornarStringIncorretaNoToString() {
-        Carro carro = new Carro(1, "Toyota", "ABC-1234", 2022);
-
-        String incorreto = "Carro{id=2, marca='Honda', placa='XYZ-9876', ano=2020}";
-        assertNotEquals(incorreto, carro.toString());
+    void deveriaConfigurarEObterCor() {
+        Carro carro = new Carro();
+        carro.setCor("Preto");
+        assertEquals("Preto", carro.getCor());
     }
 }

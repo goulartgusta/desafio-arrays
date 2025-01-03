@@ -1,18 +1,32 @@
 package br.com.almaviva.desafio.array.etapa2.models;
 
-public abstract class Model {
-    private int id;
+public class Model {
 
-    public Model(int id) {
-        this.id = id;
-    }
+    private Integer id;
+    private String nome;
+    private Integer ano;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public Integer getAno() {
+        return ano;
+    }
+
+    public void setAno(Integer ano) {
+        this.ano = ano;
+    }
 }

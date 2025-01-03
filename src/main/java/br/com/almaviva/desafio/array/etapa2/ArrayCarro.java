@@ -3,54 +3,61 @@ package br.com.almaviva.desafio.array.etapa2;
 import br.com.almaviva.desafio.array.etapa2.models.Carro;
 import br.com.almaviva.desafio.array.etapa2.models.Model;
 import br.com.almaviva.desafio.array.etapa3.Array;
+import br.com.almaviva.desafio.array.exceptions.ModelCastException;
 
-public class ArrayCarro extends Array {
+public class ArrayCarro extends Array{
 
-    public ArrayCarro(int tamanho) {
+    public ArrayCarro(Integer tamanho) {
         super(tamanho);
     }
 
     @Override
-    public Carro[] getItems() {
-        return (Carro[]) super.getItems();
-    }
-
-    @Override
     public void inserir(Model model) {
-        if (model instanceof Carro) {
-            super.inserir(model);
+        try {
+            Carro carro = (Carro) model;
+            super.inserir(carro);
+        } catch (ClassCastException e) {
+            throw new ModelCastException("Falha ao inserir: não é Carro.", e);
         }
     }
 
     @Override
     public void remover(Model model) {
-        if (model instanceof Carro) {
-            super.remover(model);
+        try {
+            Carro carro = (Carro) model;
+            super.remover(carro);
+        } catch (ClassCastException e) {
+            throw new ModelCastException("Falha ao remover: não é Carro.", e);
         }
     }
 
     @Override
-    public Carro buscar(Model model) {
-        if (model instanceof Carro) {
-            return (Carro) super.buscar(model);
+    public Model pesquisar(Model model) {
+        try {
+            Carro carro = (Carro) model;
+            return super.pesquisar(carro); 
+        } catch (ClassCastException e) {
+            throw new ModelCastException("Falha ao pesquisar: não é Carro.", e);
         }
-        return null;
     }
 
     @Override
-    public void ordenarPorIdAscendente(int id) {
-        super.ordenarPorIdAscendente(id);
+    public void ordenarPorIdCrescente(int id) {
+        super.ordenarPorIdCrescente(id);
     }
 
     @Override
-    public void ordenarPorIdDescendente(int id) {
-        super.ordenarPorIdDescendente(id);
+    public void ordenarPorIdDecrescente(int id) {
+        super.ordenarPorIdDecrescente(id);
     }
 
     @Override
     public void atualizar(Model model) {
-        if (model instanceof Carro) {
-            super.atualizar(model);
+        try {
+            Carro carro = (Carro) model;
+            super.atualizar(carro);
+        } catch (ClassCastException e) {
+            throw new ModelCastException("Falha ao atualizar: não é Carro.", e);
         }
     }
 }
