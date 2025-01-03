@@ -1,62 +1,74 @@
 package br.com.almaviva.desafio.array.etapa4;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import java.util.List;
-
+import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MyMapTeste {
 
-    private MyMap<String, String> mapa;
+    private MyMap<String, String> map;
 
     @BeforeEach
-    void setUp() {
-        mapa = new MyMap<>();
-        mapa.put("key1", "value1");
-        mapa.put("key2", "value2");
-        mapa.put("key3", "value3");
-    }
-
-
-    @Test
-    void deveriaRetornarTamanhoCorreto() {
-        assertEquals(3, mapa.size());
+    void setup() {
+        map = new MyMap<>();
     }
 
     @Test
-    void deveriaRetornarVerdadeiroSeMapaEstaVazio() {
-        mapa.clear();
-        assertTrue(mapa.isEmpty());
+    void deveriaEstarVazioAoIniciar() {
+        assertTrue(map.isEmpty());
+        assertEquals(0, map.size());
     }
 
     @Test
-    void deveriaRetornarFalsoSeMapaNaoEstaVazio() {
-        assertFalse(mapa.isEmpty());
+    void deveriaAdicionarERecuperarElementos() {
+        map.put("k1", "v1");
+        map.put("k2", "v2");
+        assertFalse(map.isEmpty());
+        assertEquals("v1", map.get("k1"));
+        assertEquals("v2", map.get("k2"));
+        assertNull(map.get("inexistente"));
+        assertEquals(2, map.size());
     }
 
     @Test
-    void deveriaConterChaveExistente() {
-        assertTrue(mapa.containsKey("key1"));
+    void deveriaLancarExcecaoParaChaveDuplicada() {
+        map.put("k1", "v1");
+        assertThrows(IllegalArgumentException.class, () -> map.put("k1", "v2"));
     }
 
     @Test
-    void naoDeveriaConterChaveInexistente() {
-        assertFalse(mapa.containsKey("nonExistentKey"));
+    void deveriaRemoverElemento() {
+        map.put("A", "Alpha");
+        map.put("B", "Beta");
+        assertEquals("Beta", map.remove("B"));
+        assertNull(map.remove("B"));
+        assertEquals(1, map.size());
+        assertFalse(map.containsKey("B"));
     }
 
     @Test
-    void deveriaConterValorExistente() {
-        assertTrue(mapa.containsValue("value1"));
+    void deveriaVerificarSeContemChaveEValor() {
+        map.put("X", "xVal");
+        map.put("Y", null);
+        assertTrue(map.containsKey("X"));
+        assertFalse(map.containsKey("Z"));
+        assertTrue(map.containsValue("xVal"));
+        assertFalse(map.containsValue("xyz"));
+        assertTrue(map.containsKey("Y"));
+        assertTrue(map.containsValue(null));
     }
 
     @Test
-    void naoDeveriaConterValorInexistente() {
-        assertFalse(mapa.containsValue("nonExistentValue"));
+    void deveriaLimparMapa() {
+        map.put("k1", "v1");
+        map.put("k2", "v2");
+        map.clear();
+        assertTrue(map.isEmpty());
+        assertEquals(0, map.size());
+        assertFalse(map.containsKey("k1"));
     }
 
     @Test
+<<<<<<< HEAD
     void deveriaRetornarValorPorChave() {
         assertEquals("value1", mapa.get("key1"));
     }
@@ -123,4 +135,10 @@ class MyMapTeste {
         assertEquals("value5", mapa.get("key5"));
     }
 
+=======
+    void deveriaPermitirChaveNula() {
+        map.put(null, "valorNulo");
+        assertEquals("valorNulo", map.get(null));
+    }
+>>>>>>> minha-nova-branch
 }
