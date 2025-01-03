@@ -1,62 +1,63 @@
 package br.com.almaviva.desafio.array.etapa1;
 
-import br.com.almaviva.desafio.array.exceptions.MatrizException;
+import br.com.almaviva.desafio.array.exceptions.MatrizClassException;
 
 public class MyMatriz {
 
-	private final Number[][] matrizNumerica;
-	private final Character[][] matrizCaracteres;
+    private final Character[] linhaCaracteres;
+    private final Integer[] linhaNumeros;
 
-	public MyMatriz(Integer linhas, Integer colunas) {
-		this.matrizNumerica = new Number[linhas][colunas];
-		this.matrizCaracteres = new Character[linhas][colunas];
-	}
+    public MyMatriz(Character[] caracteres, Integer[] numeros) {
+        this.linhaCaracteres = caracteres.clone();
+        this.linhaNumeros = numeros.clone();
+    }
 
-	public void inserirNumero(Integer linha, Integer coluna, Number elemento) {
-		try {
-			matrizNumerica[linha][coluna] = elemento;
-		} catch (Exception e) {
-			throw new MatrizException("Erro ao inserir número: " + e.getMessage());
-		}
-	}
+    public void inserirCaractere(int coluna, Object valor) {
+        try {
+            linhaCaracteres[coluna] = (Character) valor;
+        } catch (Exception e) {
+            throw new MatrizClassException("Erro ao inserir caractere na posição " + coluna + ": " + e.getMessage());
+        }
+    }
 
-	public void inserirCaractere(Integer linha, Integer coluna, Character elemento) {
-		try {
-			matrizCaracteres[linha][coluna] = elemento;
-		} catch (Exception e) {
-			throw new MatrizException("Erro ao inserir caractere: " + e.getMessage());
-		}
-	}
+    public void inserirNumero(int coluna, Object valor) {
+        try {
+            linhaNumeros[coluna] = (Integer) valor;
+        } catch (Exception e) {
+            throw new MatrizClassException("Erro ao inserir número na posição " + coluna + ": " + e.getMessage());
+        }
+    }
 
-	public Number buscarNumero(Integer linha, Integer coluna) {
-		try {
-			return matrizNumerica[linha][coluna];
-		} catch (Exception e) {
-			throw new MatrizException("Erro ao buscar número: " + e.getMessage());
-		}
-	}
+    public Character buscarCaractere(int coluna) {
+        try {
+            return linhaCaracteres[coluna];
+        } catch (Exception e) {
+            throw new MatrizClassException("Erro ao buscar caractere na posição " + coluna + ": " + e.getMessage());
+        }
+    }
 
-	public Character buscarCaractere(Integer linha, Integer coluna) {
-		try {
-			return matrizCaracteres[linha][coluna];
-		} catch (Exception e) {
-			throw new MatrizException("Erro ao buscar caractere: " + e.getMessage());
-		}
-	}
+    public Integer buscarNumero(int coluna) {
+        try {
+            return linhaNumeros[coluna];
+        } catch (Exception e) {
+            throw new MatrizClassException("Erro ao buscar número na posição " + coluna + ": " + e.getMessage());
+        }
+    }
 
-	public void removerNumero(Integer linha, Integer coluna) {
-		try {
-			matrizNumerica[linha][coluna] = null;
-		} catch (Exception e) {
-			throw new MatrizException("Erro ao remover número: " + e.getMessage());
-		}
-	}
+    public void removerCaractere(int coluna) {
+        try {
+            linhaCaracteres[coluna] = null;
+        } catch (Exception e) {
+            throw new MatrizClassException("Erro ao remover caractere na posição " + coluna + ": " + e.getMessage());
+        }
+    }
 
-	public void removerCaractere(Integer linha, Integer coluna) {
-		try {
-			matrizCaracteres[linha][coluna] = null;
-		} catch (Exception e) {
-			throw new MatrizException("Erro ao remover caractere: " + e.getMessage());
-		}
-	}
+    public void removerNumero(int coluna) {
+        try {
+            linhaNumeros[coluna] = null;
+        } catch (Exception e) {
+            throw new MatrizClassException("Erro ao remover número na posição " + coluna + ": " + e.getMessage());
+        }
+    }
+
 }
