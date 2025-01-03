@@ -1,108 +1,126 @@
 package br.com.almaviva.desafio.array.etapa4;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
-public class MyMapTeste {
+class MyMapTeste {
+
+    private MyMap<String, String> mapa;
+
+    @BeforeEach
+    void setUp() {
+        mapa = new MyMap<>();
+        mapa.put("key1", "value1");
+        mapa.put("key2", "value2");
+        mapa.put("key3", "value3");
+    }
+
 
     @Test
-    public void deveriaRetornarTamanhoCorreto() {
-        MyMap<String, Integer> map = new MyMap<>();
-        assertEquals(0, map.size());
-        map.put("Key1", 1);
-        assertEquals(1, map.size());
+    void deveriaRetornarTamanhoCorreto() {
+        assertEquals(3, mapa.size());
     }
 
     @Test
-    public void deveriaRetornarSeEstaVazio() {
-        MyMap<String, Integer> map = new MyMap<>();
-        assertTrue(map.isEmpty());
-        map.put("Key1", 1);
-        assertFalse(map.isEmpty());
+    void deveriaRetornarVerdadeiroSeMapaEstaVazio() {
+        mapa.clear();
+        assertTrue(mapa.isEmpty());
     }
 
     @Test
-    public void deveriaAdicionarERecuperarValor() {
-        MyMap<String, Integer> map = new MyMap<>();
-        assertNull(map.put("Key1", 1));
-        assertEquals(1, map.get("Key1"));
+    void deveriaRetornarFalsoSeMapaNaoEstaVazio() {
+        assertFalse(mapa.isEmpty());
     }
 
     @Test
-    public void deveriaSobrescreverValorExistente() {
-        MyMap<String, Integer> map = new MyMap<>();
-        map.put("Key1", 1);
-        assertEquals(1, map.put("Key1", 2));
-        assertEquals(2, map.get("Key1"));
+    void deveriaConterChaveExistente() {
+        assertTrue(mapa.containsKey("key1"));
     }
 
     @Test
-    public void deveriaRemoverValor() {
-        MyMap<String, Integer> map = new MyMap<>();
-        map.put("Key1", 1);
-        map.put("Key2", 2);
-        assertEquals(1, map.remove("Key1"));
-        assertNull(map.get("Key1"));
-        assertEquals(1, map.size());
+    void naoDeveriaConterChaveInexistente() {
+        assertFalse(mapa.containsKey("nonExistentKey"));
     }
 
     @Test
-    public void deveriaRetornarNullParaRemocaoInexistente() {
-        MyMap<String, Integer> map = new MyMap<>();
-        assertNull(map.remove("Key1"));
+    void deveriaConterValorExistente() {
+        assertTrue(mapa.containsValue("value1"));
     }
 
     @Test
-    public void deveriaVerificarSeContemChave() {
-        MyMap<String, Integer> map = new MyMap<>();
-        map.put("Key1", 1);
-        assertTrue(map.containsKey("Key1"));
-        assertFalse(map.containsKey("Key2"));
+    void naoDeveriaConterValorInexistente() {
+        assertFalse(mapa.containsValue("nonExistentValue"));
     }
 
     @Test
-    public void deveriaVerificarSeContemValor() {
-        MyMap<String, Integer> map = new MyMap<>();
-        map.put("Key1", 1);
-        assertTrue(map.containsValue(1));
-        assertFalse(map.containsValue(2));
+    void deveriaRetornarValorPorChave() {
+        assertEquals("value1", mapa.get("key1"));
     }
 
     @Test
-    public void deveriaRetornarChaves() {
-        MyMap<String, Integer> map = new MyMap<>();
-        map.put("Key1", 1);
-        map.put("Key2", 2);
-        Object[] keys = map.keys();
-        assertArrayEquals(new Object[]{"Key1", "Key2"}, keys);
+    void deveriaRetornarNuloParaChaveInexistente() {
+        assertNull(mapa.get("nonExistentKey"));
     }
 
     @Test
-    public void deveriaRetornarValores() {
-        MyMap<String, Integer> map = new MyMap<>();
-        map.put("Key1", 1);
-        map.put("Key2", 2);
-        Object[] values = map.values();
-        assertArrayEquals(new Object[]{1, 2}, values);
+    void deveriaAdicionarElementoComPut() {
+        mapa.put("key4", "value4");
+        assertEquals("value4", mapa.get("key4"));
     }
 
     @Test
-    public void deveriaExpandirArrayAutomaticamente() {
-        MyMap<Integer, String> map = new MyMap<>();
-        for (int i = 0; i < 15; i++) {
-            map.put(i, "Value" + i);
-        }
-        assertEquals(15, map.size());
-        for (int i = 0; i < 15; i++) {
-            assertEquals("Value" + i, map.get(i));
-        }
+    void naoDeveriaRemoverElementoInexistente() {
+        assertNull(mapa.remove("nonExistentKey"));
     }
 
     @Test
-    public void deveriaRetornarStringCorreta() {
-        MyMap<String, Integer> map = new MyMap<>();
-        map.put("Key1", 1);
-        map.put("Key2", 2);
-        assertEquals("{Key1=1, Key2=2}", map.toString());
+    void deveriaSubstituirValorCondicionalmenteComReplace() {
+        assertTrue(mapa.replace("key1", "value1", "newValue1"));
+        assertEquals("newValue1", mapa.get("key1"));
     }
+
+    @Test
+    void naoDeveriaSubstituirValorSeCondicaoFalhar() {
+        assertFalse(mapa.replace("key1", "wrongValue", "newValue1"));
+    }
+
+    @Test
+    void deveriaRetornarTodasAsChaves() {
+        List<String> keys = mapa.keySet();
+        assertEquals(3, keys.size());
+        assertTrue(keys.contains("key1"));
+        assertTrue(keys.contains("key2"));
+        assertTrue(keys.contains("key3"));
+    }
+
+    @Test
+    void deveriaRetornarTodasAsEntradas() {
+        List<MyMap.Entry<String, String>> entries = mapa.entrySet();
+        assertEquals(3, entries.size());
+    }
+
+    @Test
+    void deveriaSubstituirTodosOsValoresComReplaceAll() {
+        mapa.replaceAll((key, value) -> value + "_updated");
+        assertEquals("value1_updated", mapa.get("key1"));
+        assertEquals("value2_updated", mapa.get("key2"));
+    }
+
+    @Test
+    void deveriaAdicionarTodosOsElementosDeOutroMapaComPutAll() {
+        MyMap<String, String> outroMapa = new MyMap<>();
+        outroMapa.put("key4", "value4");
+        outroMapa.put("key5", "value5");
+
+        mapa.putAll(outroMapa);
+
+        assertEquals(5, mapa.size());
+        assertEquals("value4", mapa.get("key4"));
+        assertEquals("value5", mapa.get("key5"));
+    }
+
 }

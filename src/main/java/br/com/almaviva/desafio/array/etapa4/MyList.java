@@ -1,28 +1,51 @@
 package br.com.almaviva.desafio.array.etapa4;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.function.UnaryOperator;
 
-class MyList<T> {
+public class MyList<E> {
+
     private Object[] elements;
     private int size;
 
     public MyList() {
-        elements = new Object[10];
-        size = 0;
+        this.elements = new Object[10];
+        this.size = 0;
     }
 
-    public void add(T element) {
+    private void ensureCapacity() {
         if (size == elements.length) {
-            expandCapacity();
+            elements = Arrays.copyOf(elements, elements.length * 2);
         }
-        elements[size++] = element;
     }
 
-    public void addAll(Collection<? extends T> c) {
-        for (T element : c) {
-            add(element);
+    public int size() {
+        return size;
+    }
+
+    public boolean isEmpty() {
+        return size == 0; 
+    }
+
+    public boolean contains(Object element) {
+        for (int i = 0; i < size; i++) {
+            if ((elements[i] == null && element == null) ||
+                (elements[i] != null && elements[i].equals(element))) {
+                return true;
+            }
         }
+        return false;
+    }
+
+    public Object[] toArray() {
+        return Arrays.copyOf(elements, size);
+    }
+
+    public boolean add(E element) {
+        ensureCapacity();
+        elements[size++] = element;
+        return true;
     }
 
     public void clear() {
@@ -32,58 +55,23 @@ class MyList<T> {
         size = 0;
     }
 
-    public boolean contains(Object element) {
-        return indexOf(element) >= 0;
+    public E get(int index) {
+        return (E) elements[index];
     }
 
-    public boolean containsAll(Collection<?> c) {
-        for (Object element : c) {
-            if (!contains(element)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public T get(int index) {
-        validateIndex(index);
-        return (T) elements[index];
-    }
-
-    public int indexOf(Object element) {
-        for (int i = 0; i < size; i++) {
-            if (Objects.equals(elements[i], element)) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
-    public boolean isEmpty() {
-        return size == 0;
-    }
-
-    public int lastIndexOf(Object element) {
-        for (int i = size - 1; i >= 0; i--) {
-            if (Objects.equals(elements[i], element)) {
-                return i;
-            }
-        }
-        return -1;
+    public E set(int index, E element) {
+        E oldElement = (E) elements[index];
+        elements[index] = element;
+        return oldElement;
     }
 
     public boolean remove(Object element) {
         int index = indexOf(element);
-        if (index >= 0) {
-            removeAt(index);
-            return true;
-        }
-        return false;
+        return index >= 0 && removeAt(index) != null;
     }
 
-    public T removeAt(int index) {
-        validateIndex(index);
-        T removedElement = (T) elements[index];
+    public E removeAt(int index) {
+        E removedElement = (E) elements[index];
         for (int i = index; i < size - 1; i++) {
             elements[i] = elements[i + 1];
         }
@@ -91,72 +79,33 @@ class MyList<T> {
         return removedElement;
     }
 
-    public boolean removeAll(Collection<?> c) {
-        boolean modified = false;
-        for (Object element : c) {
-            while (remove(element)) {
-                modified = true;
+    public int indexOf(Object element) {
+        for (int i = 0; i < size; i++) {
+            if ((elements[i] == null && element == null) ||
+                (elements[i] != null && elements[i].equals(element))) {
+                return i;
             }
         }
-        return modified;
+        return -1;
     }
 
-    public void replaceAll(UnaryOperator<T> operator) {
-        for (int i = 0; i < size; i++) {
-            elements[i] = operator.apply((T) elements[i]);
-        }
-    }
-
-    public boolean retainAll(Collection<?> c) {
-        boolean modified = false;
-        for (int i = 0; i < size; i++) {
-            if (!c.contains(elements[i])) {
-                removeAt(i--);
-                modified = true;
+    public int lastIndexOf(Object element) {
+        for (int i = size - 1; i >= 0; i--) {
+            if ((elements[i] == null && element == null) ||
+                (elements[i] != null && elements[i].equals(element))) {
+                return i;
             }
         }
-        return modified;
+        return -1;
     }
 
-    public T set(int index, T element) {
-        validateIndex(index);
-        T oldElement = (T) elements[index];
-        elements[index] = element;
-        return oldElement;
-    }
-
-    public void sort(Comparator<? super T> c) {
-        Arrays.sort((T[]) elements, 0, size, c);
-    }
-
-    public int size() {
-        return size;
-    }
-
-    public Object[] toArray() {
-        return Arrays.copyOf(elements, size);
-    }
-
-    private void expandCapacity() {
-        Object[] newElements = new Object[elements.length * 2];
-        System.arraycopy(elements, 0, newElements, 0, elements.length);
-        elements = newElements;
-    }
-
-    private void validateIndex(int index) {
-        if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException("Índice inválido: " + index);
-        }
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder("[");
+    public void replaceAll(UnaryOperator<E> operator) {
         for (int i = 0; i < size; i++) {
-            sb.append(elements[i]);
-            if (i < size - 1) sb.append(", ");
+            elements[i] = operator.apply((E) elements[i]);
         }
-        sb.append("]");
-        return sb.toString();
+    }
+
+    public void sort(Comparator<? super E> comparator) {
+        Arrays.sort((E[]) elements, 0, size, comparator);
     }
 }
