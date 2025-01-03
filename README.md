@@ -1,82 +1,64 @@
+## **Etapa 1:**
 
-## **Visão Geral do Projeto**
-Este projeto consiste na implementação de diversas estruturas e funcionalidades relacionadas a arrays e coleções em Java. O objetivo é explorar o uso de arrays e suas limitações, criar classes específicas para manipulação de dados, implementar funcionalidades comuns de coleções (como listas, mapas e conjuntos) e garantir que todo o código esteja devidamente testado e coberto por ferramentas de análise.
-
----
-
-### **Etapa 1: Testes com Arrays Comuns**
-Criar e testar arrays explorando todas as possibilidades e limitações da estrutura. O foco está em:
-- Demonstrar como criar arrays em diferentes cenários.
-- Testar operações permitidas, como acesso, modificação e iteração.
-- Identificar limitações, como tamanho fixo e falta de métodos utilitários.
-
-### **Etapa 2: Classes Model e Arrays Específicos**
-1. Criar as classes:
-   - **Pessoa**, **Bicicleta** e **Carro**, todas estendendo a classe base `Model`.
-   - Cada uma dessas classes deve conter 3 atributos.
-2. Criar as classes específicas para manipulação:
-   - **ArrayPessoa**, **ArrayBicicleta** e **ArrayCarro**, todas estendendo a classe base `Array`.
-   - A classe `Array` terá métodos genéricos.
-
-### **Etapa 3: Métodos da Classe Array**
-A classe `Array` deve implementar os seguintes métodos:
-- **`inserir(Model model)`**: Inserir um objeto no array.
-- **`remover(Model model)`**: Remover um objeto do array.
-- **`pesquisar(Model model)`**: Pesquisar um objeto no array.
-- **`ordenarPorIdCrescente(int id)`**: Ordenar os objetos pelo ID em ordem crescente.
-- **`ordenarPorIdDecrescente(int id)`**: Ordenar os objetos pelo ID em ordem decrescente.
-- **`atualizar(Model model)`**: Atualizar um objeto existente no array.
-
-### **Etapa 4: Interfaces e Classes de Coleções**
-1. Criar as implementações:
-   - **MyList**: Implementação personalizada de uma lista.
-   - **MyMap**: Implementação personalizada de um mapa.
-   - **MySet**: Implementação personalizada de um conjunto.
-2. Garantir que as classes sejam amplamente testadas, cobrindo:
-   - Adição, remoção, busca, iteração e outras operações.
+- Criar 1 array simples de letra
+- 1 array simples de número
+- 1 matriz que recebe o array 1 e 2
+- Tentar solucionar o problema de uma matriz com letras e números
+- Opções:
+    - Criar uma classe com meu próprio tipo de array (tentar essa).
+    - Criar nossa própria exceção para os problemas da matriz.
+- Testar com JUNIT métodos como o que enviarei (pedir detalhes depois) e exceções também.
+- Objetivo: array bidimensional fazendo testes de tudo o que pode e não pode fazer com array, a chave é ser criativo, o intuito é provar que sabemos usar o array e tudo que ele pode ou não pode fazer, lidando com 2 tipos numa matriz comum.
 
 ---
 
-## Requisitos e Observações
+## **Etapa 2:**
 
-- **Testes Unitários:**
-  - Utilizar **JUnit** para garantir 100% de cobertura nos testes.
-  - Testar todos os cenários possíveis, incluindo casos de erro (exceções).
-
-- **Ferramentas de Qualidade:**
-  - Utilizar o **EclEmma** para verificar a cobertura de testes.
-  - Usar o **SonarLint** para garantir a qualidade do código e evitar problemas de manutenção.
-
-- **Levantamento de Exceções:**
-  - Implementar exceções específicas para cenários como remoção de elementos inexistentes ou acesso a índices inválidos.
+- Teremos as classes Pessoa, Bicicleta e Carro, as 3 extendem da classe Model, Cada uma deve ter 3 atributos (inclusive a Model).
+- Não precisa criar construtor, só com os métodos get set ta tudo certo (podemos conversar melhor sobre isso)
+- Depois, teremos as classes ArrayPessoa, ArrayBicicleta e ArrayCarro, cada uma extende da classe Array que devemos criar também.
 
 ---
 
-## Organização dos Arquivos
+## **Etapa 3:**
 
-### Estrutura de Pacotes
-```
-br.com.almaviva.desafio.array.etapa1  // Testes com arrays comuns
-br.com.almaviva.desafio.array.etapa2  // Classes Model e Arrays específicos
-br.com.almaviva.desafio.array.etapa3  // Implementação da classe Array e seus métodos
-br.com.almaviva.desafio.array.etapa4  // Implementação de MyList, MyMap e MySet
-```
+Devemos criar os métodos da classe Array que usaremos na etapa 2:
 
-### Classes Principais
-- **Etapa 1:** Arquivos de teste explorando arrays comuns.
-- **Etapa 2:**
-  - `Model`
-  - `Pessoa`, `Bicicleta`, `Carro`
-  - `ArrayPessoa`, `ArrayBicicleta`, `ArrayCarro`
-- **Etapa 3:**
-  - `Array` com métodos genéricos.
-- **Etapa 4:**
-  - `List`, `Map`, `Set` (interfaces)
-  - `MyList`, `MyMap`, `MySet` (implementações personalizadas)
+- inserir(Model model)
+- remover(Model model)
+- pesquisar(Model model)
+- ordenarPorIdCrescente(int id)
+- ordenarPorIdDecrescente(int id)
+- atualizar(Model model)
 
-### Testes
-Todos os testes estarão no pacote correspondente, seguindo a convenção:
-```
-br.com.almaviva.desafio.array.etapaX.tests
-```
+---
 
+## **Etapa 2 + Etapa 3:**
+
+Terá problemas na modelagem, deveremos implementar os métodos da classe array e extendê-los nas classes usando try catch para validarmos o casting de classes, para isso, (importante) precisaremos da nossa própria exceção, devemos ter o try catch, capturar a exceção do java e lançar a nossa
+
+Após tudo implementado, devemos testar cada classe com 100% de coverage.
+
+---
+
+## **Etapa 4:**
+
+Devemos criar as interfaces List, Map e Set, com os métodos PRINCIPAIS (somente o necessário) que essas classes implementam quando usamos elas normalmente.
+
+Então devemos fazer as classes MyList, MyMap, MySet e testar tudo.
+
+---
+
+**Observações importantes:**
+
+- Precisamos ter 100% do nosso código em testes usando JUnit (sem mock).
+- É necessário usarmos o Coverage e termos 100% de cobertura em testes (importantíssmo).
+- Devemos levantar as exceptions quando formos testar (Importante).
+- Devemos considerar o eclema e SonarLint para realizarmos o projeto.
+- A CHAVE nesta etapa será na qualidade dos testes, devemos ter comportamentos com eles, como testes realizados aqui: https://github.com/goulartgusta/teste-collection
+
+Outras observações:
+
+- Não usar i nem j nos laços, usar linha e coluna no lugar ou algo parecido.
+- Usar o máximo possível de Wrapper no lugar de tipo primitivo.
+- Estamos criando arrays do zero, mas podemos usar coisas somente da classe Array/Arrays
