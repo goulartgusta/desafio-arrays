@@ -24,12 +24,23 @@ public class MyMap<K, V> {
 		}
 	}
 
-	private void aumentarTamanho() {
-		Entry<K, V>[] newEntries = new Entry[entries.length * 2];
-		for (int i = 0; i < size; i++) {
-			newEntries[i] = entries[i];
+	private void ensureCapacity() {
+		if (size == entries.length) {
+			Entry<K, V>[] newEntries = new Entry[entries.length * 2];
+			for (int i = 0; i < size; i++) {
+				newEntries[i] = entries[i];
+			}
+			entries = newEntries;
 		}
-		entries = newEntries;
+	}
+
+	private void validateKey(K key) {
+		if (key == null) {
+			throw new IllegalArgumentException("Chave nula não é permitida.");
+		}
+		if (containsKey(key)) {
+			throw new IllegalArgumentException("Chave já existe no mapa.");
+		}
 	}
 
 	public int size() {
@@ -42,7 +53,8 @@ public class MyMap<K, V> {
 
 	public boolean containsKey(K key) {
 		for (int i = 0; i < size; i++) {
-			if ((key == null && entries[i].key == null) || (key != null && key.equals(entries[i].key))) {
+			K currentKey = entries[i].key;
+			if ((currentKey == null && key == null) || (currentKey != null && currentKey.equals(key))) {
 				return true;
 			}
 		}
@@ -51,7 +63,8 @@ public class MyMap<K, V> {
 
 	public boolean containsValue(V value) {
 		for (int i = 0; i < size; i++) {
-			if ((value == null && entries[i].value == null) || (value != null && value.equals(entries[i].value))) {
+			V currentValue = entries[i].value;
+			if ((currentValue == null && value == null) || (currentValue != null && currentValue.equals(value))) {
 				return true;
 			}
 		}
@@ -60,7 +73,8 @@ public class MyMap<K, V> {
 
 	public V get(K key) {
 		for (int i = 0; i < size; i++) {
-			if ((key == null && entries[i].key == null) || (key != null && key.equals(entries[i].key))) {
+			K currentKey = entries[i].key;
+			if ((currentKey == null && key == null) || (currentKey != null && currentKey.equals(key))) {
 				return entries[i].value;
 			}
 		}
@@ -68,40 +82,36 @@ public class MyMap<K, V> {
 	}
 
 	public V put(K key, V value) {
-		for (int i = 0; i < size; i++) {
-			if ((key == null && entries[i].key == null) || (key != null && key.equals(entries[i].key))) {
-				V oldValue = entries[i].value;
-				entries[i].value = value;
-				return oldValue;
-			}
-		}
-		if (size == entries.length) {
-			aumentarTamanho();
-		}
+		validateKey(key);
+
+		ensureCapacity();
+
 		entries[size++] = new Entry<>(key, value);
 		return null;
 	}
 
 	public V remove(K key) {
 		for (int i = 0; i < size; i++) {
-			if ((key == null && entries[i].key == null) || (key != null && key.equals(entries[i].key))) {
-				V value = entries[i].value;
+			K currentKey = entries[i].key;
+			if ((currentKey == null && key == null) || (currentKey != null && currentKey.equals(key))) {
+				V oldValue = entries[i].value;
 				for (int j = i; j < size - 1; j++) {
 					entries[j] = entries[j + 1];
 				}
 				entries[--size] = null;
-				return value;
+				return oldValue;
 			}
 		}
 		return null;
 	}
 
-
 	public boolean replace(K key, V oldValue, V newValue) {
 		for (int i = 0; i < size; i++) {
-			if ((key == null && entries[i].key == null) || (key != null && key.equals(entries[i].key))) {
-				if ((oldValue == null && entries[i].value == null)
-						|| (oldValue != null && oldValue.equals(entries[i].value))) {
+			K currentKey = entries[i].key;
+			if ((currentKey == null && key == null) || (currentKey != null && currentKey.equals(key))) {
+				V currentValue = entries[i].value;
+				if ((currentValue == null && oldValue == null)
+						|| (currentValue != null && currentValue.equals(oldValue))) {
 					entries[i].value = newValue;
 					return true;
 				}
@@ -112,7 +122,9 @@ public class MyMap<K, V> {
 
 	public void putAll(MyMap<K, V> m) {
 		for (int i = 0; i < m.size; i++) {
-			put(m.entries[i].key, m.entries[i].value);
+			K key = m.entries[i].key;
+			V value = m.entries[i].value;
+			put(key, value);
 		}
 	}
 
@@ -142,5 +154,4 @@ public class MyMap<K, V> {
 			entries[i].value = function.apply(entries[i].key, entries[i].value);
 		}
 	}
-
 }

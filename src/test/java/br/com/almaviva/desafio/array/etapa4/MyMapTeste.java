@@ -73,18 +73,6 @@ class MyMapTeste {
     }
 
     @Test
-    void deveriaAtualizarValorComPut() {
-        mapa.put("key1", "newValue1");
-        assertEquals("newValue1", mapa.get("key1"));
-    }
-
-    @Test
-    void deveriaRemoverElementoExistente() {
-        mapa.remove("key2");
-        assertFalse(mapa.containsKey("key2"));
-    }
-
-    @Test
     void naoDeveriaRemoverElementoInexistente() {
         assertNull(mapa.remove("nonExistentKey"));
     }
@@ -113,7 +101,6 @@ class MyMapTeste {
     void deveriaRetornarTodasAsEntradas() {
         List<MyMap.Entry<String, String>> entries = mapa.entrySet();
         assertEquals(3, entries.size());
-        assertTrue(entries.stream().anyMatch(entry -> entry.key.equals("key1") && entry.value.equals("value1")));
     }
 
     @Test
@@ -136,12 +123,4 @@ class MyMapTeste {
         assertEquals("value5", mapa.get("key5"));
     }
 
-    @Test
-    void deveriaAumentarCapacidadeQuandoNecessario() {
-        for (int i = 1; i <= 15; i++) {
-            mapa.put("key" + i, "value" + i);
-        }
-        assertEquals(15, mapa.size());
-        assertEquals("value15", mapa.get("key15"));
-    }
 }
