@@ -5,62 +5,61 @@ import java.util.Arrays;
 public class MySet<E> {
 
     private static final int INITIAL_CAPACITY = 10;
-    private Object[] elements;
-    private int size;
+    private Object[] elementos;
+    private int quantidade;
 
     public MySet() {
-        elements = new Object[INITIAL_CAPACITY];
-        size = 0;
+        elementos = new Object[INITIAL_CAPACITY];
+        quantidade = 0;
     }
 
     private void ensureCapacity() {
-        if (size >= elements.length) {
-            elements = Arrays.copyOf(elements, elements.length * 2);
+        if (quantidade >= elementos.length) {
+            elementos = Arrays.copyOf(elementos, elementos.length * 2);
         }
     }
 
-    public boolean add(E element) {
-        if (!contains(element)) {
+    public boolean add(E elemento) {
+        if (!contains(elemento)) {
             ensureCapacity();
-            elements[size++] = element;
+            elementos[quantidade++] = elemento;
             return true;
         }
         return false;
     }
 
-    @SuppressWarnings("unchecked")
-    public boolean remove(Object o) {
-        int index = indexOf(o);
-        if (index >= 0) {
-            elements[index] = elements[size - 1];
-            elements[size - 1] = null;
-            size--;
+    public boolean remove(Object objeto) {
+        int indice = indexOf(objeto);
+        if (indice >= 0) {
+            elementos[indice] = elementos[quantidade - 1];
+            elementos[quantidade - 1] = null;
+            quantidade--;
             return true;
         }
         return false;
     }
 
-    public boolean contains(Object o) {
-        return indexOf(o) >= 0;
+    public boolean contains(Object objeto) {
+        return indexOf(objeto) >= 0;
     }
 
     public int size() {
-        return size;
+        return quantidade;
     }
 
     public boolean isEmpty() {
-        return size == 0;
+        return quantidade == 0;
     }
 
     public void clear() {
-        Arrays.fill(elements, 0, size, null);
-        size = 0;
+        Arrays.fill(elementos, 0, quantidade, null);
+        quantidade = 0;
     }
 
-    private int indexOf(Object o) {
-        for (int i = 0; i < size; i++) {
-            if ((elements[i] == null && o == null)
-             || (elements[i] != null && elements[i].equals(o))) {
+    private int indexOf(Object objeto) {
+        for (int i = 0; i < quantidade; i++) {
+            if ((elementos[i] == null && objeto == null)
+             || (elementos[i] != null && elementos[i].equals(objeto))) {
                 return i;
             }
         }

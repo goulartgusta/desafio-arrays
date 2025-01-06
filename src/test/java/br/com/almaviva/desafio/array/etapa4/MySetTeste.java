@@ -1,73 +1,82 @@
 package br.com.almaviva.desafio.array.etapa4;
 
-import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-class MySetTeste {
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-    private MySet<String> set;
+class MySetTest {
+
+    private MySet<String> conjunto;
 
     @BeforeEach
-    void setup() {
-        set = new MySet<>();
+    void setUp() {
+        conjunto = new MySet<>();
     }
 
     @Test
-    void deveriaEstarVazioAoIniciar() {
-        assertTrue(set.isEmpty());
-        assertEquals(0, set.size());
+    void deveriaEstarVazioAoInicializar() {
+        assertTrue(conjunto.isEmpty());
+        assertEquals(0, conjunto.size());
     }
 
     @Test
     void deveriaAdicionarElementosUnicos() {
-        assertTrue(set.add("A"));
-        assertTrue(set.add("B"));
-        assertEquals(2, set.size());
-        assertTrue(set.contains("A"));
-        assertTrue(set.contains("B"));
+        assertTrue(conjunto.add("Elemento1"));
+        assertTrue(conjunto.add("Elemento2"));
+        assertEquals(2, conjunto.size());
+        assertTrue(conjunto.contains("Elemento1"));
+        assertTrue(conjunto.contains("Elemento2"));
     }
 
     @Test
-    void naoDeveriaPermitirElementosDuplicados() {
-        assertTrue(set.add("X"));
-        assertFalse(set.add("X"));
-        assertEquals(1, set.size());
+    void naoDeveriaAdicionarElementosDuplicados() {
+        assertTrue(conjunto.add("Elemento1"));
+        assertFalse(conjunto.add("Elemento1"));
+        assertEquals(1, conjunto.size());
     }
 
     @Test
-    void deveriaPermitirAdicionarNulo() {
-        assertTrue(set.add(null));
-        assertFalse(set.add(null));
-        assertEquals(1, set.size());
-        assertTrue(set.contains(null));
+    void deveriaAdicionarElementoNulo() {
+        assertTrue(conjunto.add(null));
+        assertFalse(conjunto.add(null));
+        assertEquals(1, conjunto.size());
+        assertTrue(conjunto.contains(null));
     }
 
     @Test
     void deveriaRemoverElemento() {
-        set.add("A");
-        set.add("B");
-        assertTrue(set.remove("B"));
-        assertFalse(set.contains("B"));
-        assertFalse(set.remove("B"));
-        assertEquals(1, set.size());
+        conjunto.add("Elemento1");
+        conjunto.add("Elemento2");
+        assertTrue(conjunto.remove("Elemento2"));
+        assertFalse(conjunto.contains("Elemento2"));
+        assertFalse(conjunto.remove("Elemento2"));
+        assertEquals(1, conjunto.size());
     }
 
     @Test
-    void deveriaRemoverNulo() {
-        set.add(null);
-        set.add("X");
-        assertTrue(set.remove(null));
-        assertFalse(set.contains(null));
-        assertEquals(1, set.size());
+    void deveriaRemoverElementoNulo() {
+        conjunto.add(null);
+        conjunto.add("Elemento1");
+        assertTrue(conjunto.remove(null));
+        assertFalse(conjunto.contains(null));
+        assertEquals(1, conjunto.size());
     }
 
     @Test
-    void deveriaLimparConjunto() {
-        set.add("A");
-        set.add("B");
-        set.clear();
-        assertTrue(set.isEmpty());
-        assertEquals(0, set.size());
-        assertFalse(set.contains("A"));
+    void deveriaLimparTodosOsElementos() {
+        conjunto.add("Elemento1");
+        conjunto.add("Elemento2");
+        conjunto.clear();
+        assertTrue(conjunto.isEmpty());
+        assertEquals(0, conjunto.size());
+        assertFalse(conjunto.contains("Elemento1"));
+    }
+
+    @Test
+    void deveriaConterElemento() {
+        conjunto.add("Elemento1");
+        assertTrue(conjunto.contains("Elemento1"));
+        assertFalse(conjunto.contains("ElementoInexistente"));
     }
 }

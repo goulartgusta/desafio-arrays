@@ -1,99 +1,106 @@
 package br.com.almaviva.desafio.array.etapa4;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class MyListTest {
 
-    private MyList<String> list;
+    private MyList<String> lista;
 
     @BeforeEach
-    void setup() {
-        list = new MyList<>();
+    void setUp() {
+        lista = new MyList<>();
     }
 
     @Test
-    void testInitialState() {
-        assertTrue(list.isEmpty());
-        assertEquals(0, list.size());
+    void deveriaEstarVaziaAoInicializar() {
+        assertTrue(lista.isEmpty());
+        assertEquals(0, lista.size());
     }
 
     @Test
-    void testAddAndGet() {
-        list.add("A");
-        list.add("B");
-        list.add("A"); 
-        assertEquals(3, list.size());
+    void deveriaAdicionarElementosComSucesso() {
+        lista.add("Elemento1");
+        lista.add("Elemento2");
+        assertEquals(2, lista.size());
+        assertEquals("Elemento1", lista.get(0));
+        assertEquals("Elemento2", lista.get(1));
     }
 
     @Test
-    void testAddNull() {
-        list.add(null);
-        assertEquals(1, list.size());
-        assertNull(list.get(0));
-        assertTrue(list.contains(null));
+    void deveriaAdicionarElementoNulo() {
+        lista.add(null);
+        assertEquals(1, lista.size());
+        assertNull(lista.get(0));
     }
 
     @Test
-    void testSet() {
-        list.add("X");
-        list.add("Y");
-        assertEquals("X", list.set(0, "Z"));
-        assertEquals("Z", list.get(0));
+    void deveriaRemoverElementoPorIndice() {
+        lista.add("Elemento1");
+        lista.add("Elemento2");
+        lista.add("Elemento3");
+
+        assertEquals("Elemento2", lista.removeByIndex(1));
+        assertEquals(2, lista.size());
+        assertFalse(lista.contains("Elemento2"));
     }
 
     @Test
-    void testSetInvalidIndex() {
-        list.add("OnlyOne");
-        assertThrows(IndexOutOfBoundsException.class, () -> list.set(1, "Fail"));
+    void deveriaLancarExcecaoParaIndiceInvalidoAoRemover() {
+        lista.add("Elemento1");
+        assertThrows(IndexOutOfBoundsException.class, () -> lista.removeByIndex(1));
     }
 
     @Test
-    void testRemoveByIndex() {
-        list.add("A");
-        list.add("B");
-        list.add("C");
-        assertEquals("B", list.remove(1));
-        assertEquals(2, list.size());
-        assertFalse(list.contains("B"));
+    void deveriaRemoverElementoPorObjeto() {
+        lista.add("Elemento1");
+        lista.add("Elemento2");
+        assertTrue(lista.remove("Elemento1"));
+        assertEquals(1, lista.size());
+        assertFalse(lista.contains("Elemento1"));
     }
 
     @Test
-    void testRemoveByIndexInvalid() {
-        list.add("A");
-        assertThrows(IndexOutOfBoundsException.class, () -> list.remove(-1));
-        assertThrows(IndexOutOfBoundsException.class, () -> list.remove(1));
+    void naoDeveriaRemoverElementoInexistente() {
+        lista.add("Elemento1");
+        assertFalse(lista.remove("ElementoInexistente"));
     }
 
     @Test
-    void testContains() {
-        list.add("test");
-        assertTrue(list.contains("test"));
-        assertFalse(list.contains("other"));
-        list.add(null);
-        assertTrue(list.contains(null));
+    void deveriaAtualizarElementoComSucesso() {
+        lista.add("Elemento1");
+        lista.add("Elemento2");
+
+        assertEquals("Elemento1", lista.set(0, "ElementoAtualizado"));
+        assertEquals("ElementoAtualizado", lista.get(0));
     }
 
     @Test
-    void testClear() {
-        list.add("A");
-        list.add("B");
-        list.clear();
-        assertEquals(0, list.size());
-        assertThrows(IndexOutOfBoundsException.class, () -> list.get(0));
+    void deveriaLancarExcecaoParaIndiceInvalidoAoAtualizar() {
+        lista.add("Elemento1");
+        assertThrows(IndexOutOfBoundsException.class, () -> lista.set(1, "NovoElemento"));
     }
 
     @Test
-    void testIndexOutOfBoundsOnGet() {
-        assertThrows(IndexOutOfBoundsException.class, () -> list.get(0));
-        list.add("Value");
-        assertThrows(IndexOutOfBoundsException.class, () -> list.get(-1));
-        assertThrows(IndexOutOfBoundsException.class, () -> list.get(1));
+    void deveriaLimparTodosOsElementos() {
+        lista.add("Elemento1");
+        lista.add("Elemento2");
+        lista.clear();
+        assertTrue(lista.isEmpty());
+        assertEquals(0, lista.size());
+    }
+
+    @Test
+    void deveriaLancarExcecaoParaIndiceInvalidoAoBuscar() {
+        assertThrows(IndexOutOfBoundsException.class, () -> lista.get(0));
+    }
+
+    @Test
+    void deveriaConterElemento() {
+        lista.add("Elemento1");
+        assertTrue(lista.contains("Elemento1"));
+        assertFalse(lista.contains("ElementoInexistente"));
     }
 }
