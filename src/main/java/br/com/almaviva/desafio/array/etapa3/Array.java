@@ -62,13 +62,14 @@ public class Array {
 
     public void atualizar(Model model) {
         for (int posicao = 0; posicao < itens.length; posicao++) {
-            if (itens[posicao].getId().equals(model.getId())) {
+            if (itens[posicao] != null && itens[posicao].getId().equals(model.getId())) {
                 itens[posicao] = model;
+                return;
             }
         }
     }
 
     public Model[] getItens() {
-        return itens;
+        return itens.clone();
     }
 }
