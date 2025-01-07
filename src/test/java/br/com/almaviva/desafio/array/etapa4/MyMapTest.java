@@ -4,7 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-class MyMapTeste {
+class MyMapTest {
 
     private MyMap<String, String> map;
 

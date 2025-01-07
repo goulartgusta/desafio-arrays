@@ -11,7 +11,7 @@ import br.com.almaviva.desafio.array.etapa2.models.Pessoa;
 import br.com.almaviva.desafio.array.etapa2.models.Model;
 import br.com.almaviva.desafio.array.exceptions.ModelCastException;
 
-class ArrayPessoaTeste {
+class ArrayPessoaTest {
 
 	private ArrayPessoa arrayPessoa;
 

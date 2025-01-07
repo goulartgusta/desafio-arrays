@@ -11,7 +11,7 @@ import br.com.almaviva.desafio.array.etapa2.models.Carro;
 import br.com.almaviva.desafio.array.etapa2.models.Model;
 import br.com.almaviva.desafio.array.exceptions.ModelCastException;
 
-class ArrayCarroTeste {
+class ArrayCarroTest {
 
     private ArrayCarro arrayCarro;
 

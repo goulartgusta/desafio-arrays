@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import br.com.almaviva.desafio.array.etapa2.models.Model;
 
-class ArrayTeste {
+class ArrayTest {
 
     private Array meuArray;
 

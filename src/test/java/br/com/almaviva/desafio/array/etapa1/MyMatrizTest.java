@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import br.com.almaviva.desafio.array.exceptions.MatrizClassException;
 
-class MyMatrizTeste {
+class MyMatrizTest {
 
     private MyMatriz matriz;
 

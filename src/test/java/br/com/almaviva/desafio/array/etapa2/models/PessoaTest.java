@@ -3,7 +3,7 @@ package br.com.almaviva.desafio.array.etapa2.models;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-class PessoaTeste {
+class PessoaTest {
 
     @Test
     void deveriaConfigurarEObterId() {

@@ -1,11 +1,10 @@
-# Usando OpenJDK para compilar e rodar a aplicação
-FROM openjdk:21-jdk-slim
+FROM maven:3.9.9-eclipse-temurin-21
 
-# Diretório do container
 WORKDIR /app
 
-# Copiar arquivos para o container
-COPY target/meu-projeto-1.0.0.jar app.jar
+COPY pom.xml /app
+RUN mvn dependency:resolve
 
-# Comando para rodar o jar
-CMD ["java", "-jar", "app.jar"]
+COPY src /app/src
+
+CMD ["mvn", "test"]
